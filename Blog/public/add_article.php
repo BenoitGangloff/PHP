@@ -1,5 +1,5 @@
 <?php
-include 'functions.php';
+include '../lib/functions.php';
 
 $errors = [];
 if (!empty($_POST)) {
@@ -18,9 +18,11 @@ if (!empty($_POST)) {
 
     if (empty($errors)) {
         addArticles($title, $abstract, $content, $image);
-        header('Location: confirmation.html');
+        header('Location: admin.php');
         exit;
     }
 }
-
-include 'add_article.phtml';
+$title = "Formulaire d'ajout d'article";
+$titlePage = 'Administration';
+$template = 'add_article';
+include '../templates/base_admin.phtml';

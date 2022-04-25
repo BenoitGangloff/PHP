@@ -1,6 +1,6 @@
 <?php
 // Constantes
-const FILENAME = 'articles.json';
+const FILENAME = '../data/articles.json';
 
 // Chargement d'un Fichier JSON
 function loadJSON(string $filepath)

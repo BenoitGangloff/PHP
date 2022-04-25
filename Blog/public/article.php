@@ -1,5 +1,5 @@
 <?php
-include 'functions.php';
+include '../lib/functions.php';
 
 // Validation de l'ID
 if (!array_key_exists('id', $_GET) || !$_GET['id']) {
@@ -18,5 +18,6 @@ if (!$article) {
     echo 'Article introuvable';
     exit; // Si pas d'Article => Message d'erreur et On arrête tout !
 }
-
-include 'article.phtml';
+$title = 'Blog - Un Article';
+$template = 'article';
+include '../templates/base.phtml';

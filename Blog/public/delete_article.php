@@ -1,5 +1,5 @@
 <?php
-include 'functions.php';
+include '../lib/functions.php';
 
 $id = $_GET['id'];
 deleteArticle($id);

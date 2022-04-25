@@ -1,0 +1,18 @@
+
+
+<h1>Mon Blog</h1>
+<fieldset>
+    <legend> <?=$article['title'];?> </legend>
+    <div>
+        <p><?=$article['content'];?></p>
+    </div>
+    <div>
+        <?php if ($article['image']): ?>
+            <img src="images/<?=$article['image'];?>" alt="">
+        <?php endif; ?>
+    </div>
+    <div>
+        <small>Créé le <?=(new DateTimeImmutable($article['createdAt']))->format('d/m/Y');?></small>
+    </div>
+</fieldset>
+

@@ -1,5 +1,5 @@
 <?php
-include 'functions.php';
+include '../lib/functions.php';
 
 //STEP 1 : Chercher les données de l'article pour préremplir le formulaire
 // Validation de l'ID
@@ -47,4 +47,7 @@ if (!empty($_POST)) {
         exit;
     }
 }
-include 'edit_article.phtml';
+$title = 'Blog - Editer un Article';
+$titlePage = 'Modifier un Article';
+$template = 'edit_article';
+include '../templates/base_admin.phtml';

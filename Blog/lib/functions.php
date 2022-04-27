@@ -1,6 +1,7 @@
 <?php
 // Constantes
 const FILENAME = '../data/articles.json';
+const USERS = '../data/users.json';
 
 // Chargement d'un Fichier JSON
 function loadJSON(string $filepath)
@@ -124,4 +125,95 @@ function bubbleSortArticles() {
             }
         }
     } while ($sorted);
+}
+
+
+function getAllUsers(): array
+{
+    $allUsers = loadJSON(USERS);
+
+    if (!$allUsers) {
+        return [];
+    }
+
+    return $allUsers;
+}
+
+/**
+ * Est-ce qu'un utilisateur existe déjà ?
+ * @param string $email - L'email de l'utilisateur qu'on cherche
+ */
+function getUserByEmail(string $email)
+{
+    // On récupère le contenu de fichier JSON
+    $users = loadJSON(USERS);
+
+    // Si le fichier n'existe pas ou est vide, forcément l'utilisateur n'existe pas
+    if (!$users) {
+        return false;
+    }
+
+    // On parcours le tableau d'utilisateurs...
+    foreach ($users as $user) {
+
+        // Si l'un des utilisateur possède l'email qu'on teste, on retourne true
+        if ($user['email'] == $email) {
+            return $user;
+        }
+    }
+
+    // Si on a parcouru tout le tableau sans trouver l'utilisateur, c'est qu'il n'est pas présent
+    return false;
+}
+
+function addUsers(string $firstname, string $lastname, string $email, string $password)
+{
+    $today = new DateTimeImmutable();
+
+    $allUsers = getAllUsers();
+
+    $users = [
+        'id' => sha1(uniqid(rand(), true)),
+        'firstname' => $firstname,
+        'lastname' => $lastname,
+        'email' => $email,
+        'password' => $password,
+        'createdAt' => $today->format('Y-m-d')
+    ];
+    
+    $allUsers[] = $users;
+
+    saveJSON(USERS, $allUsers);
+}
+
+function checkUser(string $email, string $password)
+{
+    $users = loadJSON(USERS);
+
+    if (!$users) {
+        return false;
+    }
+    
+    $user = getUserByEmail($email);
+
+    if ($user == false) {
+        return false;
+    }
+
+    if (!password_verify($password, $user['password'])) {
+        return false;
+    }
+    
+    return $user;
+}   
+
+function registerUser(string $id, string $firstname, string $lastname, string $email)
+{
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+    $_SESSION['id'] = $id;
+    $_SESSION['firstname'] = $firstname;
+    $_SESSION['lastname'] = $lastname;
+    $_SESSION['email'] = $email;
 }

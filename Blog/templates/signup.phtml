@@ -24,3 +24,9 @@
         <input type="submit" value="Enregistrer">
     </fieldset>
 </form>
+
+<?php if (isset($errors)): ?>
+    <?php foreach ($errors as $error): ?>
+        <p class="error"><?=$error;?></p>
+    <?php endforeach; ?>
+<?php endif; ?>

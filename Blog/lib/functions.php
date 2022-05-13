@@ -2,6 +2,8 @@
 // Constantes
 const FILENAME = '../data/articles.json';
 const USERS = '../data/users.json';
+const ROLE_USER = 'USER';
+const ROLE_ADMIN = 'ADMIN';
 
 // Chargement d'un Fichier JSON
 function loadJSON(string $filepath)
@@ -178,7 +180,8 @@ function addUsers(string $firstname, string $lastname, string $email, string $pa
         'lastname' => $lastname,
         'email' => $email,
         'password' => $password,
-        'createdAt' => $today->format('Y-m-d')
+        'createdAt' => $today->format('Y-m-d'),
+        'role' => ROLE_USER
     ];
     
     $allUsers[] = $users;
@@ -207,13 +210,45 @@ function checkUser(string $email, string $password)
     return $user;
 }   
 
-function registerUser(string $id, string $firstname, string $lastname, string $email)
+function registerUser(string $id, string $firstname, string $lastname, string $email, string $role)
 {
     if (session_status() == PHP_SESSION_NONE) {
         session_start();
     }
-    $_SESSION['id'] = $id;
-    $_SESSION['firstname'] = $firstname;
-    $_SESSION['lastname'] = $lastname;
-    $_SESSION['email'] = $email;
+    $_SESSION['user'] = [
+        'id' => $id,
+        'firstname' => $firstname,
+        'lastname' => $lastname,
+        'email' => $email,
+        'role' => $role
+    ];
+}
+
+function isConnected()
+{
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    if (!isset($_SESSION['user'])) {
+        return false;
+    }
+    return true;
+}
+
+function logout()
+{
+    if (isConnected()) {
+        $_SESSION['user']=null;
+        session_destroy();
+    }
+}
+
+function hasRole(string $role)
+{
+    if (!isConnected()) {
+        return false;
+    }
+
+    return $_SESSION['user']['role'] == $role;
 }

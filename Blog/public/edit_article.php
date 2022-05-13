@@ -1,5 +1,12 @@
 <?php
+session_start();
 include '../lib/functions.php';
+
+if(!hasRole(ROLE_ADMIN)) {
+    http_response_code(403);
+    echo 'Accès interdit';
+    exit;
+}
 
 //STEP 1 : Chercher les données de l'article pour préremplir le formulaire
 // Validation de l'ID

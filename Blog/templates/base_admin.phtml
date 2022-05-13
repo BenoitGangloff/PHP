@@ -11,9 +11,15 @@
     <?php endif;?>
 </head>
 <body>
-    <header>
-        <h1><?=$titlePage?></h1>
-    </header>
+    <nav>
+        <?php if (isConnected()): ?>
+            <p><i class="fa-solid fa-user"></i> <?=htmlspecialchars($_SESSION['user']['firstname'])?> <?=htmlspecialchars($_SESSION['user']['lastname'])?></p>
+            <a href="../public/logout.php">Déconnexion</a>
+        <?php else : ?>
+            <a href="../public/login.php">Connexion</a>
+            <a href="../public/signup.php">Créer un compte</a>
+        <?php endif; ?>
+    </nav>  
     <main>
         <?php
             include '../templates/'.$template.'.phtml';

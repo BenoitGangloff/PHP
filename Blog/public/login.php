@@ -4,8 +4,8 @@ $errors = [];
 $email ='';
 
 if (!empty($_POST)) {
-    $email = trim($_POST['email']);
-    $password = trim($_POST['password']);
+    $email = strip_tags(trim($_POST['email']));
+    $password = strip_tags(trim($_POST['password']));
 
     $userInfo = checkUser($email, $password);
     if ($userInfo) {
@@ -15,14 +15,13 @@ if (!empty($_POST)) {
         $email = $userInfo['email'];
         $password = $userInfo['password'];
         $createdAt = $userInfo['createdAt'];
-        registerUser($id, $firstname, $lastname, $email);
+        $role = $userInfo['role'];
+        registerUser($id, $firstname, $lastname, $email, $role);
     
-        header('Location: admin.php');
+        header('Location: home.php');
         exit;
     } 
-    else {
-        $error = 'Identifiants incorrects';
-    }
+    $error = 'Identifiants incorrects';
 }
 
 

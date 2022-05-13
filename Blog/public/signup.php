@@ -1,4 +1,5 @@
 <?php
+session_start();
 include '../lib/functions.php';
 
 $errors = [];
@@ -7,11 +8,11 @@ $lastname = '';
 $email = '';
 
 if (!empty($_POST)) {
-    $firstname = trim($_POST['firstname']);
-    $lastname = trim($_POST['lastname']);
-    $email = trim($_POST['email']);
-    $password = trim($_POST['password']);
-    $passwordConfirm = trim($_POST['password-confirm']);
+    $firstname = strip_tags(trim($_POST['firstname']));
+    $lastname = strip_tags(trim($_POST['lastname']));
+    $email = strip_tags(trim($_POST['email']));
+    $password = strip_tags(trim($_POST['password']));
+    $passwordConfirm = strip_tags(trim($_POST['password-confirm']));
 
 
     if (!strlen($firstname)) {
@@ -42,7 +43,8 @@ if (!empty($_POST)) {
     if (empty($errors)) {
         $hash = password_hash($password, PASSWORD_DEFAULT);
         addUsers($firstname, $lastname, $email, $hash);
-        header('Location: admin.php');
+        // header('Location: admin.php');
+        header('Location: login.php');
         exit;
     }
 }

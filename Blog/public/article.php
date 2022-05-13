@@ -1,4 +1,5 @@
 <?php
+session_start();
 include '../lib/functions.php';
 
 // Validation de l'ID
